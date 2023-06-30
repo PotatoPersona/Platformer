@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1567281482692452048}
   m_Layer: 0
   m_Name: projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,7 +145,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 2
+  m_Constraints: 6
 --- !u!58 &8771172961701787235
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -193,4 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835dc2914ce4d4544a34b6aaa8cf7bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  speed: 5

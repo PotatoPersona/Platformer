@@ -7,12 +7,13 @@ public class Movement : MonoBehaviour
 
     public PROJECTILE ProjectilePrefab;
     public Transform LaunchOffset;
-    public float health = 5;
+    private float maxHealth = 5;
+    public float health;
 
+    
     public float speed = 10;
     public float jump = 10;
     private float moveInput;
-    
 
     private Rigidbody2D rb;
 
@@ -26,20 +27,21 @@ public class Movement : MonoBehaviour
     private int extraJumps;
     public int extraJumpsValue;
 
+    private Vector3 temp;
 
-
-    Vector3 temp;
     void Start()
     {
+       health = maxHealth;
         extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        //Chekcs if player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
+        //Allows for horizontal movement
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
@@ -55,42 +57,62 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+
+        //Allows the player to jump
         if (isGrounded == true)
         {
             extraJumps = extraJumpsValue;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0)
+        if (Input.GetAxis("Vertical") > 0 && extraJumps > 0)
         {
             rb.velocity = Vector2.up * jump;
             extraJumps--;
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
+        else if (Input.GetAxis("Vertical") > 0 && extraJumps == 0 && isGrounded == true)
         {
             rb.velocity = Vector2.up * jump;
         }
 
+
+        //Fires slime giblits and becomes smaller
         temp = transform.localScale;
-        
-
-        
-
 
         if (Input.GetButtonDown("Fire1") && health > 0)
         {
             Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+            //giblet.firesGiblet();
             health--;
             temp.x -= .1f;
             temp.y -= .1f;
             temp.z -= .1f;
             transform.localScale = temp;
         }
-
         
-
     }
 
+    //Gains Health when collecting giblits and becomes bigger
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Giblit")
+        {
+            if (health < maxHealth)
+            {
+                health++;
+                temp.x += .1f;
+                temp.y += .1f;
+                temp.z += .1f;
+                transform.localScale = temp;
+            }
+
+        }
+    }
+ 
+ 
+
+
+    //Flips the objects direction
     void Flip()
     {
         facingRight = !facingRight;

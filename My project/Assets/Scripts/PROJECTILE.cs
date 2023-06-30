@@ -6,14 +6,23 @@ using UnityEngine;
 
 public class PROJECTILE : MonoBehaviour
 {
-    public float Speed = 5f;
+    public float speed = 5f;
+
     private void Update()
     {
-        transform.position += transform.right * Time.deltaTime * Speed;
+        transform.position += transform.right * Time.deltaTime * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        speed = 0;
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+
+        }
+        
     }
+
+
 }
