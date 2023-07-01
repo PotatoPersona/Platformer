@@ -10,18 +10,17 @@ public class FiresGiblit : MonoBehaviour
     private float maxHealth = 5;
     public float health;
 
-    public GameObject player;
     public Vector3 temp;
 
     void Start()
     {
         health = maxHealth;
-        temp = player.transform.localScale;
+        temp = transform.localScale;
     }
 
     void Update()
     {
-       /*
+       //Fires giblit and becomes smaller
         if (Input.GetButtonDown("Fire1") && health > 0)
         {
             Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
@@ -29,14 +28,15 @@ public class FiresGiblit : MonoBehaviour
             temp.x -= .1f;
             temp.y -= .1f;
             temp.z -= .1f;
-            player.transform.localScale = temp;
+            transform.localScale = temp;
         }
-       */
+       
     }
 
+    //Picks up giblit and becomes bigger
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Giblit" && collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Giblit")
         {
             if (health < maxHealth)
             {
@@ -44,9 +44,9 @@ public class FiresGiblit : MonoBehaviour
                 temp.x += .1f;
                 temp.y += .1f;
                 temp.z += .1f;
-                player.transform.localScale = temp;
+                transform.localScale = temp;
             }
-
         }
+
     }
 }

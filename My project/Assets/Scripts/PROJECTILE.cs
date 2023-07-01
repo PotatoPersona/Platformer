@@ -7,6 +7,7 @@ using UnityEngine;
 public class PROJECTILE : MonoBehaviour
 {
     public float speed = 5f;
+    public Vector3 temp;
 
     private void Update()
     {
@@ -15,14 +16,15 @@ public class PROJECTILE : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Stops if it hits a wall or something
         speed = 0;
+
+        //Gets destoryed when picked up by player
         if (collision.gameObject.tag == "Player")
         {
             Destroy(gameObject);
 
-        }
-        
+        }        
     }
-
 
 }

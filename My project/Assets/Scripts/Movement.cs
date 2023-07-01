@@ -5,18 +5,11 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
 
-    public PROJECTILE ProjectilePrefab;
-    public Transform LaunchOffset;
-    private float maxHealth = 5;
-    public float health;
-
-    
     public float speed = 10;
     public float jump = 10;
     private float moveInput;
 
     private Rigidbody2D rb;
-
     private bool facingRight = true;
 
     private bool isGrounded;
@@ -27,11 +20,8 @@ public class Movement : MonoBehaviour
     private int extraJumps;
     public int extraJumpsValue;
 
-    private Vector3 temp;
-
     void Start()
     {
-       health = maxHealth;
         extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -45,11 +35,11 @@ public class Movement : MonoBehaviour
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
-        if(facingRight == false && moveInput > 0)
+        if (facingRight == false && moveInput > 0)
         {
             Flip();
         }
-        else if(facingRight == true && moveInput < 0)
+        else if (facingRight == true && moveInput < 0)
         {
             Flip();
         }
@@ -75,48 +65,12 @@ public class Movement : MonoBehaviour
             rb.velocity = Vector2.up * jump;
         }
 
-
-        //Fires slime giblits and becomes smaller
-        temp = transform.localScale;
-
-        if (Input.GetButtonDown("Fire1") && health > 0)
-        {
-            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
-            //giblet.firesGiblet();
-            health--;
-            temp.x -= .1f;
-            temp.y -= .1f;
-            temp.z -= .1f;
-            transform.localScale = temp;
-        }
-        
     }
 
-    //Gains Health when collecting giblits and becomes bigger
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Giblit")
+        //Flips the objects direction
+        void Flip()
         {
-            if (health < maxHealth)
-            {
-                health++;
-                temp.x += .1f;
-                temp.y += .1f;
-                temp.z += .1f;
-                transform.localScale = temp;
-            }
-
+            facingRight = !facingRight;
+            transform.Rotate(0f, 180f, 0f);
         }
     }
- 
- 
-
-
-    //Flips the objects direction
-    void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
-    }
-}
-
