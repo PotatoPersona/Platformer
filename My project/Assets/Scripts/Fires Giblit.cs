@@ -8,14 +8,17 @@ public class FiresGiblit : MonoBehaviour
     [SerializeField] private Transform LaunchOffset;
     [SerializeField] private PROJECTILE ProjectilePrefab;
 
-    [SerializeField] private float maxHealth = 5;
+    [SerializeField] private float initialHealth = 5;
     [SerializeField] private float health;
+
+    public Animator anime;
+
 
     private Vector3 temp;
 
     void Start()
     {
-        health = maxHealth;
+        health = initialHealth;
         temp = transform.localScale;
     }
 
@@ -40,16 +43,38 @@ public class FiresGiblit : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Giblit"))
         {
-            if (health < maxHealth)
-            {
-                health++;
-                temp.x += .1f;
-                temp.y += .1f;
-                temp.z += .1f;
-                transform.localScale = temp;
-                ProjectilePrefab.transform.localScale = temp;
-            }
+           
+            health++;
+            temp.x += .1f;
+            temp.y += .1f;
+            temp.z += .1f;
+            transform.localScale = temp;
+            ProjectilePrefab.transform.localScale = temp;
+            
         }
 
+
+
+
+        if (collision.gameObject.CompareTag("Hurt"))
+        {
+
+            if (health >= 1)
+            {
+                health--;
+                temp.x -= .1f;
+                temp.y -= .1f;
+                temp.z -= .1f;
+                transform.localScale = temp;
+
+                anime.SetTrigger("isHurt");
+            }
+            else if (health < 1)
+            {
+                anime.SetTrigger("isDead");
+                Destroy(gameObject);
+            }
+
+        }
     }
 }

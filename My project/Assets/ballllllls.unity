@@ -395,7 +395,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &755923998
 MonoBehaviour:
@@ -411,8 +411,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LaunchOffset: {fileID: 803723575}
   ProjectilePrefab: {fileID: 1567281482692452048, guid: b904cf523941013488d55af83e31ea60, type: 3}
-  maxHealth: 5
+  initialHealth: 5
   health: 0
+  anime: {fileID: 755924002}
 --- !u!114 &755924001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +452,11 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &755924002 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1829361221938705242, guid: 89ddee0f4d5e4c141aa286140eb58418, type: 3}
+  m_PrefabInstance: {fileID: 457594220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &803723574
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +566,7 @@ GameObject:
   - component: {fileID: 1196670449}
   m_Layer: 3
   m_Name: spike
-  m_TagString: Untagged
+  m_TagString: Hurt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
