@@ -5,32 +5,23 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
 
-    public float speed = 10;
-    public float jump = 10;
+    [SerializeField] private float speed = 10;
+    [SerializeField] private float jump = 10;
     private float moveInput;
-
-    private Rigidbody2D rb;
     private bool facingRight = true;
 
-    private bool isGrounded;
-    public Transform groundCheck;
-    public float checkRadius;
-    public LayerMask whatIsGround;
-
-    private int extraJumps;
-    public int extraJumpsValue;
+    private Rigidbody2D rb;
+    private BoxCollider2D coll;
+    [SerializeField] private LayerMask jumpableGround;
 
     void Start()
     {
-        extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
     }
 
     void FixedUpdate()
     {
-        //Chekcs if player is grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-
         //Allows for horizontal movement
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
@@ -47,30 +38,23 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-
-        //Allows the player to jump
-        if (isGrounded == true)
-        {
-            extraJumps = extraJumpsValue;
-        }
-
-        if (Input.GetAxis("Vertical") > 0 && extraJumps > 0)
-        {
-            rb.velocity = Vector2.up * jump;
-            extraJumps--;
-        }
-
-        else if (Input.GetAxis("Vertical") > 0 && extraJumps == 0 && isGrounded == true)
+        //Lets the Player Jump
+        if (Input.GetAxis("Vertical") > 0 && isGrounded())
         {
             rb.velocity = Vector2.up * jump;
         }
-
     }
 
-        //Flips the objects direction
-        void Flip()
-        {
-            facingRight = !facingRight;
-            transform.Rotate(0f, 180f, 0f);
-        }
+    //Flips the objects direction
+    void Flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
+
+    //Checks if player is on the ground
+    private bool isGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+}

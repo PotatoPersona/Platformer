@@ -1,16 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FiresGiblit : MonoBehaviour
 {
-    public Transform LaunchOffset;
-    public PROJECTILE ProjectilePrefab;
+    [SerializeField] private Transform LaunchOffset;
+    [SerializeField] private PROJECTILE ProjectilePrefab;
 
-    private float maxHealth = 5;
-    public float health;
+    [SerializeField] private float maxHealth = 5;
+    [SerializeField] private float health;
 
-    public Vector3 temp;
+    private Vector3 temp;
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class FiresGiblit : MonoBehaviour
     void Update()
     {
        //Fires giblit and becomes smaller
-        if (Input.GetButtonDown("Fire1") && health > 0)
+        if (Input.GetButtonDown("Fire1") && health > 1)
         {
             Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
             health--;
@@ -29,6 +30,7 @@ public class FiresGiblit : MonoBehaviour
             temp.y -= .1f;
             temp.z -= .1f;
             transform.localScale = temp;
+            ProjectilePrefab.transform.localScale = temp;
         }
        
     }
@@ -36,7 +38,7 @@ public class FiresGiblit : MonoBehaviour
     //Picks up giblit and becomes bigger
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Giblit")
+        if (collision.gameObject.CompareTag("Giblit"))
         {
             if (health < maxHealth)
             {
@@ -45,6 +47,7 @@ public class FiresGiblit : MonoBehaviour
                 temp.y += .1f;
                 temp.z += .1f;
                 transform.localScale = temp;
+                ProjectilePrefab.transform.localScale = temp;
             }
         }
 
